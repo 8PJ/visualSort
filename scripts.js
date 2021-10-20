@@ -1,9 +1,10 @@
-// alert("hi");
 let scrnHeight = Math.floor($(window).height() / 1.4);
-let scrnWidth = $(window).width() / 1.5;
+let scrnWidth = $(window).width() / 1.2;
 
 $(".sorting").css("min-height", scrnHeight + "px"); // set the height for the sorting window
 
+
+// on button click
 $(".btn").on("click", function () {
 
     $(".sorting").empty();
@@ -11,8 +12,8 @@ $(".btn").on("click", function () {
     let numElmt = Math.abs($(".inputField").val()); // get number of items to sort
 
     // make sure numElmt is in the valid interval
-    if (numElmt > 200) {
-        numElmt = 200;
+    if (numElmt > 400) {
+        numElmt = 400;
     }
     else if (numElmt < 2) {
         numElmt = 2;

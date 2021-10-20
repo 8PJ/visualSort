@@ -15,12 +15,14 @@
 }
 
 .sorting {
-    text-align: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
 }
 
 .elmt {
     display: inline-block;
-    background-color: green;
+    background-color: #71C0AE;
 }
 
 body {
