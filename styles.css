@@ -1,3 +1,28 @@
-h1 {
-    color: green;
+.input {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.inputField {
+    /* height: 1.5rem; */
+    font-size: 2rem;
+    width: 7rem;
+}
+
+.btn {
+    width: 4rem;
+    height: 100%;
+}
+
+.sorting {
+    text-align: center;
+}
+
+.elmt {
+    display: inline-block;
+    background-color: green;
+}
+
+body {
+    background-color: #EDEDED;
 }
