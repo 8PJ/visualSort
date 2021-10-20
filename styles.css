@@ -4,13 +4,13 @@
 }
 
 .inputField {
-    /* height: 1.5rem; */
     font-size: 2rem;
     width: 7rem;
+    text-align: center;
 }
 
-.btn {
-    width: 4rem;
+.btn, .btnSort {
+    width: 6rem;
     height: 100%;
 }
 
@@ -22,7 +22,7 @@
 
 .elmt {
     display: inline-block;
-    background-color: #71C0AE;
+    background-color: #31927D;
 }
 
 body {
