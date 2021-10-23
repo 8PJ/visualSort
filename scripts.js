@@ -53,6 +53,9 @@ $(".btnSort").on("click", function () {
     else if (sortMethod == "insertion") {
         insertionSort(numOfElmt);
     }
+    else if (sortMethod == "selection") {
+        selectionSort(numOfElmt);
+    }
 });
 
 // helper functions
@@ -178,3 +181,29 @@ function insertionSort(numElmt) {
 
 // selection sort
 
+function selectionSort(numElmt) {
+console.log(numElmt);
+    let heights = getHeights(numElmt);
+    let swaps = [];
+
+    for (let i = 0; i < numElmt - 1; i++) {
+
+        let mark = i;
+
+        for (let j = i + 1; j < numElmt; j++) {
+
+            const s = new Pair(true, mark, j);
+            swaps.push(s);
+            if (heights[mark] > heights[j]) {
+                mark = j;
+            }
+        }
+        const s = new Pair(false, mark, i, heights[mark], heights[i]);
+        swaps.push(s);
+
+        let tmp = heights[mark];
+        heights[mark] = heights[i];
+        heights[i] = tmp;
+    }
+    swap(swaps, numElmt);
+}
