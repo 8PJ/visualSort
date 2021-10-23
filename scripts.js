@@ -1,5 +1,5 @@
 let scrnHeight = Math.floor($(window).height() / 1.4);
-let scrnWidth = $(window).width() / 1.2;
+let scrnWidth = $(window).width() / 1.3;
 
 $(".sorting").css("min-height", scrnHeight + "px"); // set the height for the sorting window
 
@@ -14,8 +14,8 @@ $(".btn").on("click", function () {
     let numElmt = Math.abs($(".inputField").val()); // get number of items to sort
 
     // make sure numElmt is in the valid interval
-    if (numElmt > 400) {
-        numElmt = 400;
+    if (numElmt > 300) {
+        numElmt = 300;
     }
     else if (numElmt < 2) {
         numElmt = 2;
@@ -45,25 +45,6 @@ $(".btn").on("click", function () {
 
 $(".btnSort").on("click", function () {
     bubbleSort(numOfElmt);
-    // // set color to red
-    // $("#0").css("background-color", "red");
-    // $("#1").css("background-color", "red");
-
-    // // swap heights
-    // let height2 = getHeight(1);
-    // $("#1").css("height", getHeight(0) + "px");
-    // $("#0").css("height", height2 + "px");
-
-    // // swap ids
-    // $("#0").prop("id", "tmp");
-    // $("#1").prop("id", "0");
-    // $("#tmp").prop("id", "1");
-
-    // // set color back
-    // setTimeout(function () {
-    //     $("#1").css("background-color", "#31927D");
-    //     $("#0").css("background-color", "#31927D");
-    // }, 200);
 });
 
 // helper functions
@@ -73,27 +54,49 @@ function getHeight(index) {
     return Number($("#" + index).height());
 }
 
-function swap(index1, index2) {
+function swap(swaps) {
 
-    // set color to red
-    $("#" + index2).css("background-color", "red");
-    $("#" + index1).css("background-color", "red");
+    for (let i = 0; i < swaps.length + 1; i++) {
 
-    // swap heights
-    let height2 = getHeight(index2);
-    $("#" + index2).css("height", getHeight(index1) + "px");
-    $("#" + index1).css("height", height2 + "px");
+        setTimeout(function () {
 
-    // swap ids
-    $("#" + index1).prop("id", "tmp");
-    $("#" + index2).prop("id", index1);
-    $("#tmp").prop("id", index2);
+            if (i < swaps.length) {
 
-    // set color back
-    setTimeout(function () {
-        $("#" + index2).css("background-color", "#31927D");
-        $("#" + index1).css("background-color", "#31927D");
-    }, 200);
+                // set color back of the previous comparison
+                if (i > 0) {
+                    $("#" + swaps[i - 1].index2).css("background-color", "#696969");
+                    $("#" + swaps[i - 1].index1).css("background-color", "#696969");
+                }
+
+                // set color to red if height1 > height2, green otherwise
+                let color = (swaps[i].right) ? "green" : "red";
+                $("#" + swaps[i].index2).css("background-color", color);
+                $("#" + swaps[i].index1).css("background-color", color);
+
+                // swap heights if they aren't in right order
+                if (!swaps[i].right) {
+                    $("#" + swaps[i].index2).css("height", swaps[i].height1 + "px");
+                    $("#" + swaps[i].index1).css("height", swaps[i].height2 + "px");
+                }
+            }
+            else if (i == swaps.length) { // set color back of the last comparison
+                $("#" + swaps[swaps.length - 1].index2).css("background-color", "#696969");
+                $("#" + swaps[swaps.length - 1].index1).css("background-color", "#696969");
+            }
+        }, i * 200);
+    }
+}
+
+// pairs to swap
+class Pair {
+
+    constructor(right, index1, index2, height1, height2) {
+        this.index1 = index1;
+        this.index2 = index2;
+        this.height1 = height1;
+        this.height2 = height2;
+        this.right = right;
+    }
 }
 
 // sorts
@@ -101,11 +104,29 @@ function swap(index1, index2) {
 // bubble sort
 function bubbleSort(numElmt) {
 
+    let heights = [];
+    let swaps = [];
+
+    for (let i = 0; i < numElmt; i++) {
+        heights.push(getHeight(i));
+    }
+
     for (let i = 0; i < numElmt - 1; i++) {
         for (let j = 0; j < numElmt - i - 1; j++) {
-            if (getHeight(j) > getHeight(j + 1)) {
-                swap(j, j + 1);
+            if (heights[j] > heights[j + 1]) {
+                const s = new Pair(false, j, j + 1, heights[j], heights[j + 1]);
+                swaps.push(s);
+
+                let tmp = heights[j];
+                heights[j] = heights[j + 1];
+                heights[j + 1] = tmp;
+            }
+            else {
+                let s = new Pair(true, j, j + 1);
+                swaps.push(s);
             }
         }
     }
+    console.log(swaps);
+    swap(swaps);
 }

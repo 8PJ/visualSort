@@ -21,8 +21,10 @@
 }
 
 .elmt {
+    margin-right: 1px;
     display: inline-block;
-    background-color: #31927D;
+    background-color: #696969;
+    /* background-color: #31927D; */
 }
 
 body {
