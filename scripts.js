@@ -54,7 +54,11 @@ function getHeight(index) {
     return Number($("#" + index).height());
 }
 
-function swap(swaps) {
+function swap(swaps, numElmt) {
+
+    const speed = (numElmt < 3) ? 1000 : (numElmt < 5) ? 500 : (numElmt < 8) ? 300 : (numElmt < 10) ?
+    200 : (numElmt < 15) ? 100 : (numElmt < 20) ? 50 : (numElmt < 30) ? 20 : (numElmt < 50) ? 10 : (numElmt < 100) ?
+    5 : (numElmt < 200) ? 2 : 1;
 
     for (let i = 0; i < swaps.length + 1; i++) {
 
@@ -83,7 +87,7 @@ function swap(swaps) {
                 $("#" + swaps[swaps.length - 1].index2).css("background-color", "#696969");
                 $("#" + swaps[swaps.length - 1].index1).css("background-color", "#696969");
             }
-        }, i * 200);
+        }, i * speed);
     }
 }
 
@@ -127,6 +131,5 @@ function bubbleSort(numElmt) {
             }
         }
     }
-    console.log(swaps);
-    swap(swaps);
+    swap(swaps, numElmt);
 }
