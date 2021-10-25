@@ -13,12 +13,18 @@
 
 <body>
     <div class="input">
-        <input class="inputField" type="number" min="2" max="300" value="2">
+        <label>Number of Elements: </label>
+        <input class="inputField" type="number" min="2" max="300" value="20">
         <input class="btn" type="button" value="Generate">
+        <label>Speed: </label>
+        <input class="speed" type="range" min="1" max="100" value="50" class="slider"
+            oninput="this.nextElementSibling.value = this.value">
+        <output>50</output>
         <select class="sortMethod">
             <option value="bubble">bubble</option>
             <option value="insertion">insertion</option>
             <option value="selection">selection</option>
+            <option value="merge">merge</option>
         </select>
         <input class="btnSort" type="button" value="Sort">
     </div>

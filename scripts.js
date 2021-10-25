@@ -45,7 +45,6 @@ $(".btn").on("click", function () {
 
 $(".btnSort").on("click", function () {
     let sortMethod = $(".sortMethod").val();
-    console.log(sortMethod);
 
     if (sortMethod == "bubble") {
         bubbleSort(numOfElmt);
@@ -55,6 +54,9 @@ $(".btnSort").on("click", function () {
     }
     else if (sortMethod == "selection") {
         selectionSort(numOfElmt);
+    }
+    else if (sortMethod == "merge") {
+        mergeSort(numOfElmt);
     }
 });
 
@@ -66,6 +68,7 @@ function getHeight(index) {
 }
 
 function getHeights(numElmt) {
+
     let heights = [];
 
     for (let i = 0; i < numElmt; i++) {
@@ -75,37 +78,47 @@ function getHeights(numElmt) {
     return heights;
 }
 
-function swap(swaps, numElmt) {
+function swap(swaps) {
 
-    const speed = (numElmt < 3) ? 1000 : (numElmt < 5) ? 500 : (numElmt < 8) ? 300 : (numElmt < 10) ?
-        200 : (numElmt < 15) ? 100 : (numElmt < 20) ? 50 : (numElmt < 30) ? 20 : (numElmt < 50) ? 10 : (numElmt < 100) ?
-            5 : (numElmt < 200) ? 2 : 1;
+    let speed = ($(".speed").val() - 101) * -1;
 
     for (let i = 0; i < swaps.length + 1; i++) {
 
         setTimeout(function () {
 
             if (i < swaps.length) {
-
                 // set color back of the previous comparison
                 if (i > 0) {
-                    $("#" + swaps[i - 1].index2).css("background-color", "#696969");
+
+                    if (swaps[i - 1].index2 != undefined) {
+                        $("#" + swaps[i - 1].index2).css("background-color", "#696969");
+                    }
                     $("#" + swaps[i - 1].index1).css("background-color", "#696969");
+
                 }
 
                 // set color to red if height1 > height2, green otherwise
-                let color = (swaps[i].right) ? "green" : "red";
-                $("#" + swaps[i].index2).css("background-color", color);
+                let color = (swaps[i].right) ? "black" : "red";
+
+                if (swaps[i].index2 != undefined) {
+                    $("#" + swaps[i].index2).css("background-color", color);
+                }
                 $("#" + swaps[i].index1).css("background-color", color);
 
                 // swap heights if they aren't in right order
                 if (!swaps[i].right) {
-                    $("#" + swaps[i].index2).css("height", swaps[i].height1 + "px");
+
+                    if (swaps[i].index2 != undefined) {
+                        $("#" + swaps[i].index2).css("height", swaps[i].height1 + "px");
+                    }
                     $("#" + swaps[i].index1).css("height", swaps[i].height2 + "px");
                 }
             }
             else if (i == swaps.length) { // set color back of the last comparison
-                $("#" + swaps[swaps.length - 1].index2).css("background-color", "#696969");
+
+                if (swaps[i - 1].index2 != undefined) {
+                    $("#" + swaps[swaps.length - 1].index2).css("background-color", "#696969");
+                }
                 $("#" + swaps[swaps.length - 1].index1).css("background-color", "#696969");
             }
         }, i * speed);
@@ -133,7 +146,9 @@ function bubbleSort(numElmt) {
     let swaps = [];
 
     for (let i = 0; i < numElmt - 1; i++) {
+
         for (let j = 0; j < numElmt - i - 1; j++) {
+
             if (heights[j] > heights[j + 1]) {
                 const s = new Pair(false, j, j + 1, heights[j], heights[j + 1]);
                 swaps.push(s);
@@ -148,7 +163,7 @@ function bubbleSort(numElmt) {
             }
         }
     }
-    swap(swaps, numElmt);
+    swap(swaps);
 }
 
 // insertion sort
@@ -159,7 +174,6 @@ function insertionSort(numElmt) {
     let swaps = [];
 
     for (let i = 1; i < numElmt; i++) {
-
         let mark = i - 1;
         let addHeight = heights[i];
 
@@ -176,24 +190,23 @@ function insertionSort(numElmt) {
         const s = new Pair(true, mark, mark + 1);
         swaps.push(s);
     }
-    swap(swaps, numElmt);
+    swap(swaps);
 }
 
 // selection sort
 
 function selectionSort(numElmt) {
-console.log(numElmt);
+
     let heights = getHeights(numElmt);
     let swaps = [];
 
     for (let i = 0; i < numElmt - 1; i++) {
-
         let mark = i;
 
         for (let j = i + 1; j < numElmt; j++) {
-
             const s = new Pair(true, mark, j);
             swaps.push(s);
+
             if (heights[mark] > heights[j]) {
                 mark = j;
             }
@@ -205,5 +218,78 @@ console.log(numElmt);
         heights[mark] = heights[i];
         heights[i] = tmp;
     }
-    swap(swaps, numElmt);
+    swap(swaps);
+}
+
+// merge sort
+
+function mergeSort(numElmt) {
+    let heights = getHeights(numElmt);
+    let swaps = [];
+
+    msort(heights, 0, numElmt - 1, swaps);
+    swap(swaps);
+}
+
+function msort(heights, start, end, swaps) {
+
+    if (start < end) {
+        const mid = Math.floor(start + (end - start) / 2);
+        msort(heights, start, mid, swaps);
+        msort(heights, mid + 1, end, swaps);
+
+        merge(heights, start, mid, end, swaps);
+    }
+}
+
+// merge for mergeSort
+
+function merge(heights, start, mid, end, swaps) {
+
+    let sorted = [];
+    const startSave = start;
+    const midSave = mid;
+
+    for (let i = start; i <= end; i++) {
+
+        if ((start <= midSave) && (mid+1 <= end)) { // if none of the sides are empty
+
+            if (heights[start] <= heights[mid+1]) {
+                const s = new Pair(true, start, mid+1);
+                swaps.push(s);
+
+                sorted.push(heights[start]);
+                start++;
+            }
+            else {
+                const s = new Pair(true, start, mid+1);
+                swaps.push(s);
+
+                sorted.push(heights[mid+1]);
+                mid++;
+            }
+        }
+        else if (start <= midSave) { // if first half isn't empty
+            const s = new Pair(true, start);
+            swaps.push(s);
+
+            sorted.push(heights[start]);
+            start++;
+        }
+        else {
+            const s = new Pair(true, mid);
+            swaps.push(s);
+
+            sorted.push(heights[mid+1]);
+            mid++;
+        }
+    }
+
+    // replace elements of original array with sorted
+    for (let i = startSave; i <= end; i++) {
+        heights[i] = sorted.shift();
+
+        const s = new Pair(false, i, undefined, undefined, heights[i]);
+        swaps.push(s);
+    }
 }
