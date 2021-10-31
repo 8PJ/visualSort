@@ -58,6 +58,9 @@ $(".btnSort").on("click", function () {
     else if (sortMethod == "merge") {
         mergeSort(numOfElmt);
     }
+    else if (sortMethod == "quick") {
+        quickSort(numOfElmt);
+    }
 });
 
 // helper functions
@@ -137,7 +140,6 @@ function bubbleSort(numElmt) {
     let swaps = [];
 
     for (let i = 0; i < numElmt - 1; i++) {
-
         for (let j = 0; j < numElmt - i - 1; j++) {
 
             if (heights[j] > heights[j + 1]) {
@@ -218,16 +220,16 @@ function mergeSort(numElmt) {
     let heights = getHeights(numElmt);
     let swaps = [];
 
-    msort(heights, 0, numElmt - 1, swaps);
+    mSort(heights, 0, numElmt - 1, swaps);
     swap(swaps);
 }
 
-function msort(heights, start, end, swaps) {
+function mSort(heights, start, end, swaps) {
 
     if (start < end) {
         const mid = Math.floor(start + (end - start) / 2);
-        msort(heights, start, mid, swaps);
-        msort(heights, mid + 1, end, swaps);
+        mSort(heights, start, mid, swaps);
+        mSort(heights, mid + 1, end, swaps);
 
         merge(heights, start, mid, end, swaps);
     }
@@ -280,7 +282,86 @@ function merge(heights, start, mid, end, swaps) {
     for (let i = startSave; i <= end; i++) {
         heights[i] = sorted.shift();
 
-        const s = new Pair(false, i, -1, 0, heights[i]); // set index 2 to non-existent
+        const s = new Pair(false, i, -1, 0, heights[i]); // set index2 to non-existent
         swaps.push(s);
     }
+}
+
+// quick sort
+
+function quickSort(numElmt) {
+    let heights = getHeights(numElmt);
+    let swaps = [];
+
+    qSort(heights, 0, numElmt - 1, swaps);
+
+    swap(swaps);
+}
+
+function qSort(heights, left, right, swaps) {
+
+    if (left < right) {
+        let mid = Math.floor(left + (right - left) / 2);
+        // pivot = middle value of the first, last and middle variables of heights array
+        let pivot = Math.max(Math.min(heights[left], heights[mid]), Math.min(Math.max(heights[left], heights[mid]), heights[right]));
+
+        let locPivot = quickSwap(heights, left, right, heights.indexOf(pivot), swaps);
+
+        qSort(heights, left, locPivot - 1, swaps);
+        qSort(heights, locPivot + 1, right, swaps);
+    }
+}
+
+// swaps for quickSort
+function quickSwap(heights, left, right, pivot, swaps) {
+
+    let pivotVal = heights[pivot];
+    let rightSave = right;
+
+    // swap pivot with the right most element
+    let s = new Pair(false, right, pivot, heights[right], heights[pivot]);
+    swaps.push(s);
+
+    let tmp = heights[right];
+    heights[right] = heights[pivot];
+    heights[pivot] = tmp;
+
+    right--;
+    while (left <= right) {
+
+        // if left value is more and right value ir less than pivot value
+        if (heights[left] > pivotVal && heights[right] < pivotVal) {
+            s = new Pair(false, right, left, heights[right], heights[left]);
+            swaps.push(s);
+
+            let tmp = heights[right];
+            heights[right] = heights[left];
+            heights[left] = tmp;
+
+            left++;
+            right--;
+        }
+
+        s = new Pair(true, rightSave, left);
+        swaps.push(s);
+        if (heights[left] <= pivotVal) {
+            left++;
+        }
+
+        s = new Pair(true, rightSave, right);
+        swaps.push(s);
+        if (heights[right] >= pivotVal) {
+            right--;
+        }
+    }
+
+    // swap pivot with the element at left
+    s = new Pair(false, rightSave, left, heights[rightSave], heights[left]);
+    swaps.push(s);
+
+    tmp = heights[left];
+    heights[left] = heights[rightSave];
+    heights[rightSave] = tmp;
+
+    return left;
 }
