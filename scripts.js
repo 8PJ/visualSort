@@ -90,35 +90,26 @@ function swap(swaps) {
                 // set color back of the previous comparison
                 if (i > 0) {
 
-                    if (swaps[i - 1].index2 != undefined) {
-                        $("#" + swaps[i - 1].index2).css("background-color", "#696969");
-                    }
+                    $("#" + swaps[i - 1].index2).css("background-color", "#696969");
                     $("#" + swaps[i - 1].index1).css("background-color", "#696969");
-
                 }
 
-                // set color to red if height1 > height2, green otherwise
+                // set color to red if heights need ot be changed, black otherwise
                 let color = (swaps[i].right) ? "black" : "red";
 
-                if (swaps[i].index2 != undefined) {
-                    $("#" + swaps[i].index2).css("background-color", color);
-                }
+                $("#" + swaps[i].index2).css("background-color", color);
                 $("#" + swaps[i].index1).css("background-color", color);
 
                 // swap heights if they aren't in right order
                 if (!swaps[i].right) {
 
-                    if (swaps[i].index2 != undefined) {
-                        $("#" + swaps[i].index2).css("height", swaps[i].height1 + "px");
-                    }
+                    $("#" + swaps[i].index2).css("height", swaps[i].height1 + "px");
                     $("#" + swaps[i].index1).css("height", swaps[i].height2 + "px");
                 }
             }
             else if (i == swaps.length) { // set color back of the last comparison
 
-                if (swaps[i - 1].index2 != undefined) {
-                    $("#" + swaps[swaps.length - 1].index2).css("background-color", "#696969");
-                }
+                $("#" + swaps[swaps.length - 1].index2).css("background-color", "#696969");
                 $("#" + swaps[swaps.length - 1].index1).css("background-color", "#696969");
             }
         }, i * speed);
@@ -252,20 +243,20 @@ function merge(heights, start, mid, end, swaps) {
 
     for (let i = start; i <= end; i++) {
 
-        if ((start <= midSave) && (mid+1 <= end)) { // if none of the sides are empty
+        if ((start <= midSave) && (mid + 1 <= end)) { // if none of the sides are empty
 
-            if (heights[start] <= heights[mid+1]) {
-                const s = new Pair(true, start, mid+1);
+            if (heights[start] <= heights[mid + 1]) {
+                const s = new Pair(true, start, mid + 1);
                 swaps.push(s);
 
                 sorted.push(heights[start]);
                 start++;
             }
             else {
-                const s = new Pair(true, start, mid+1);
+                const s = new Pair(true, start, mid + 1);
                 swaps.push(s);
 
-                sorted.push(heights[mid+1]);
+                sorted.push(heights[mid + 1]);
                 mid++;
             }
         }
@@ -280,7 +271,7 @@ function merge(heights, start, mid, end, swaps) {
             const s = new Pair(true, mid);
             swaps.push(s);
 
-            sorted.push(heights[mid+1]);
+            sorted.push(heights[mid + 1]);
             mid++;
         }
     }
@@ -289,7 +280,7 @@ function merge(heights, start, mid, end, swaps) {
     for (let i = startSave; i <= end; i++) {
         heights[i] = sorted.shift();
 
-        const s = new Pair(false, i, undefined, undefined, heights[i]);
+        const s = new Pair(false, i, -1, 0, heights[i]); // set index 2 to non-existent
         swaps.push(s);
     }
 }
