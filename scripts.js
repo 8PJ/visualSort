@@ -97,7 +97,7 @@ function swap(swaps) {
                     $("#" + swaps[i - 1].index1).css("background-color", "#696969");
                 }
 
-                // set color to red if heights need ot be changed, black otherwise
+                // set color to red if heights need to be changed, black otherwise
                 let color = (swaps[i].right) ? "black" : "red";
 
                 $("#" + swaps[i].index2).css("background-color", color);
@@ -330,7 +330,7 @@ function quickSwap(heights, left, right, pivot, swaps) {
     while (left <= right) {
 
         // if left value is more and right value ir less than pivot value
-        if (heights[left] > pivotVal && heights[right] < pivotVal) {
+        if (heights[left] > pivotVal && heights[right] <= pivotVal) {
             s = new Pair(false, right, left, heights[right], heights[left]);
             swaps.push(s);
 
@@ -350,7 +350,7 @@ function quickSwap(heights, left, right, pivot, swaps) {
 
         s = new Pair(true, rightSave, right);
         swaps.push(s);
-        if (heights[right] >= pivotVal) {
+        if (heights[right] > pivotVal) {
             right--;
         }
     }
