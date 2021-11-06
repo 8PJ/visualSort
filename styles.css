@@ -1,6 +1,16 @@
+.sortMethod {
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+.slider {
+    display: inline-block;
+}
+
 .input {
     text-align: center;
-    padding: 3rem 0;
+    padding: 2rem 0;
+    background-color: #77878B;
 }
 
 .inputField {
@@ -10,11 +20,22 @@
 }
 
 .btn, .btnSort {
-    width: 6rem;
-    height: 100%;
+    border: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    color: #000000;
+    background: #eeeeee;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+}
+
+.btn:hover, .btnSort:hover {
+    background: #5f6c6f;
+    text-decoration: none;
 }
 
 .sorting {
+    padding-top: 2rem;
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -23,10 +44,16 @@
 .elmt {
     margin-right: 1px;
     display: inline-block;
-    background-color: #696969;
-    /* background-color: #31927D; */
+    background-color: #77878B;
+}
+
+label {
+    font-size: 2rem;
 }
 
 body {
-    background-color: #EDEDED;
+    font-size: 1.2rem;
+    background-color: #0A122A;
+    margin: 0;
+    color: #EDEDED;
 }

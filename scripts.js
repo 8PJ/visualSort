@@ -1,3 +1,14 @@
+function updateVal(element, value) {
+
+    if (element.className == "num") {
+        $(".outputNum").val(value);
+    }
+    else {
+        $(".outputSpeed").val(value);
+    }
+    
+}
+
 let scrnHeight = Math.floor($(window).height() / 1.4);
 let scrnWidth = $(window).width() / 1.3;
 
@@ -11,7 +22,7 @@ $(".btn").on("click", function () {
 
     $(".sorting").empty();
 
-    let numElmt = Math.abs($(".inputField").val()); // get number of items to sort
+    let numElmt = Math.abs($(".num").val()); // get number of items to sort
 
     // make sure numElmt is in the valid interval
     if (numElmt > 300) {
@@ -93,12 +104,12 @@ function swap(swaps) {
                 // set color back of the previous comparison
                 if (i > 0) {
 
-                    $("#" + swaps[i - 1].index2).css("background-color", "#696969");
-                    $("#" + swaps[i - 1].index1).css("background-color", "#696969");
+                    $("#" + swaps[i - 1].index2).css("background-color", "#77878B");
+                    $("#" + swaps[i - 1].index1).css("background-color", "#77878B");
                 }
 
-                // set color to red if heights need to be changed, black otherwise
-                let color = (swaps[i].right) ? "black" : "red";
+                // set color to red if heights need to be changed, green otherwise
+                let color = (swaps[i].right) ? "green" : "red";
 
                 $("#" + swaps[i].index2).css("background-color", color);
                 $("#" + swaps[i].index1).css("background-color", color);
@@ -112,8 +123,8 @@ function swap(swaps) {
             }
             else if (i == swaps.length) { // set color back of the last comparison
 
-                $("#" + swaps[swaps.length - 1].index2).css("background-color", "#696969");
-                $("#" + swaps[swaps.length - 1].index1).css("background-color", "#696969");
+                $("#" + swaps[swaps.length - 1].index2).css("background-color", "#77878B");
+                $("#" + swaps[swaps.length - 1].index1).css("background-color", "#77878B");
             }
         }, i * speed);
     }

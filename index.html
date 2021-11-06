@@ -13,21 +13,36 @@
 
 <body>
     <div class="input">
-        <label>Number of Elements: </label>
-        <input class="inputField" type="number" min="2" max="300" value="20">
-        <input class="btn" type="button" value="Generate">
-        <label>Speed: </label>
-        <input class="speed" type="range" min="1" max="100" value="50" class="slider"
-            oninput="this.nextElementSibling.value = this.value">
-        <output>50</output>
-        <select class="sortMethod">
-            <option value="bubble">bubble</option>
-            <option value="insertion">insertion</option>
-            <option value="selection">selection</option>
-            <option value="merge">merge</option>
-            <option value="quick">quick</option>
-        </select>
-        <input class="btnSort" type="button" value="Sort">
+        <div class="slider">
+            <label>Elements</label>
+            <br>
+            <input class="num" type="range" min="2" max="300" value="50" oninput="updateVal(this, this.value)">
+            <br>
+            <output class="outputNum">50</output>
+            <br>
+        </div>
+
+        <div class="slider">
+            <label>Speed</label>
+            <br>
+            <input class="speed" type="range" min="1" max="100" value="50" oninput="updateVal(this, this.value)">
+            <br>
+            <output class="outputSpeed">50</output>
+            <br>
+        </div>
+
+        <div class="method">
+            <input class="btn" type="button" value="Generate">
+
+            <select class="sortMethod">
+                <option value="bubble">bubble</option>
+                <option value="insertion">insertion</option>
+                <option value="selection">selection</option>
+                <option value="merge">merge</option>
+                <option value="quick">quick</option>
+            </select>
+            <input class="btnSort" type="button" value="Sort">
+        </div>
     </div>
     <div class="sorting">
     </div>
